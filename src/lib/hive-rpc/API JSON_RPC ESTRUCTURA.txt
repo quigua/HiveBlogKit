@@ -1,0 +1,291 @@
+Aquí tienes la lista de funciones JSON-RPC de Hive a chequear, sin comentarios:
+
+Funciones JSON-RPC de Hive (Condenser API)
+
+___________________________________
+condenser_api.get_accounts
+___________________________________
+active: Permisos activos de la cuenta.
+balance: Balance actual de HIVE de la cuenta.
+can_vote: Indica si la cuenta tiene poder de voto disponible.
+comment_count: Número total de comentarios hechos por la cuenta. (ADVERTENCIA)
+created: Fecha y hora de creación de la cuenta.
+curation_rewards: Recompensas de curación acumuladas por la cuenta.
+delegated_vesting_shares: VESTS delegados por la cuenta a otros.
+downvote_manabar: Nivel actual y última actualización de la maná de downvote.
+hbd_balance: Balance actual de HBD (Hive Backed Dollars) de la cuenta.
+id: ID interno numérico de la cuenta en la blockchain.
+json_metadata: Metadatos de perfil y otros datos adicionales en formato JSON (cadena que debe ser parseada).
+last_account_update: Última vez que se actualizó la cuenta.
+last_post: Fecha y hora de la última publicación.
+last_vote_time: Fecha y hora del último voto.
+memo_key: Clave pública utilizada para cifrar/descifrar memos.
+name: Nombre de usuario de la cuenta.
+owner: Permisos de propietario de la cuenta (control total).
+post_count: Número total de publicaciones hechas por la cuenta.
+posting: Permisos de publicación de la cuenta.
+posting_json_metadata: Metadatos de publicación específicos en formato JSON.
+posting_rewards: Recompensas de publicación acumuladas.
+proxy: Nombre de usuario si la cuenta está delegando su poder de voto a un proxy.
+recovery_account: Cuenta designada para la recuperación de la cuenta si se pierde el acceso.
+reputation: Puntuación de reputación de la cuenta. (ADVERTENCIA)
+reward_hbd_balance: Balance de recompensas pendientes en HBD.
+reward_hive_balance: Balance de recompensas pendientes en HIVE.
+reward_vesting_balance: Balance de recompensas pendientes en VESTS.
+savings_balance: Balance de ahorro en HIVE.
+savings_hbd_balance: Balance de ahorro en HBD.
+transfer_history: Historial de transferencias de la cuenta.
+vesting_shares: VESTS actuales de la cuenta (indica el poder de voto/curación).
+voting_manabar: Nivel actual y última actualización de la maná de voto.
+voting_power: Porcentaje actual del poder de voto de la cuenta.
+witness_votes: Lista de testigos por los que la cuenta ha votado.
+witnesses_voted_for: Número de testigos por los que la cuenta ha votado.
+
+
+___________________________________
+condenser_api.get_blog
+___________________________________
+
+blog: El nombre de usuario del blog al que pertenece la entrada (quigua).
+comment: El objeto completo que representa la publicación o comentario.
+    active_votes: Array de objetos que representan los votos activos en la publicación.
+    Cada objeto de voto contiene: percent, reputation, rshares, voter.
+    author: Autor de la publicación.
+    author_reputation: Reputación del autor en el momento de la publicación.
+    beneficiaries: Array de beneficiarios del pago de la publicación (vacío en este caso).
+    body: Contenido principal de la publicación (el texto Markdown).
+    body_length: Longitud del cuerpo de la publicación en caracteres.
+    cashout_time: Fecha y hora en que la publicación estará disponible para cobro.
+    category: Categoría o tag principal de la publicación.
+    children: Número de comentarios directos en esta publicación.
+    created: Fecha y hora de creación de la publicación.
+    curator_payout_value: Valor pagado a los curadores.
+    depth: Profundidad del comentario (0 para publicaciones raíz).
+    json_metadata: Metadatos adicionales de la publicación en formato JSON (es una cadena, necesita ser parseada).
+    last_payout: Última fecha y hora de pago.
+    last_update: Última fecha y hora de actualización.
+    max_accepted_payout: Pago máximo aceptado.
+    net_rshares: Recurso de rshares (representa el valor neto de los votos).
+    parent_author: Autor del padre (vacío para publicaciones raíz).
+    parent_permlink: Permlink del padre (categoría para publicaciones raíz).
+    pending_payout_value: Valor pendiente de pago.
+    percent_hbd: Porcentaje de pago en HBD.
+    permlink: Enlace permanente único de la publicación.
+    post_id: ID numérico interno de la publicación.
+    replies: Array de IDs de comentarios de respuestas (vacío si no se piden).
+    root_title: Título de la publicación raíz (si es un comentario, sería el título del post principal).
+    title: Título de la publicación.
+    total_payout_value: Valor total pagado (incluyendo autor y curadores).
+    url: URL relativa de la publicación en Hive.
+    entry_id: ID de la entrada dentro del blog.
+    reblogged_on: Fecha y hora en que la publicación fue reblogueada (1970-01-01T00:00:00 si no lo ha sido).
+
+___________________________________
+condenser_api.get_content
+___________________________________
+
+abs_rshares: R-Shares Absolutos. Un valor técnico que representa el poder de voto total (rshares) sin tener en cuenta los votos negativos.
+active_votes: Votos Activos. Un array de objetos que describe cada voto que ha recibido la publicación.
+percent: Porcentaje de Voto. La fuerza del voto aplicada por el usuario (ej. 10000 = 100% , 500 = 5 % )
+reputation: Reputación del Votante. La reputación del usuario que votó al momento del voto.
+rshares: R-Shares del Voto. La cantidad de "recursos de recompensa" generados por este voto específico.
+time: Marca de Tiempo del Voto. Fecha y hora en que se emitió el voto.
+voter: Nombre del Votante. El nombre de usuario que emitió el voto.
+weight: Peso del Voto. Valor numérico que representa la influencia del voto.
+allow_curation_rewards: Permitir Recompensas de Curación. true si los curadores (votantes) pueden recibir recompensas por esta publicación.
+allow_replies: Permitir Respuestas. true si se pueden añadir comentarios a esta publicación.
+allow_votes: Permitir Votos. true si la publicación aún puede recibir votos.
+author: Autor. El nombre de usuario que creó la publicación.
+author_reputation: Reputación del Autor. La reputación del autor de la publicación en el momento de la consulta.
+author_rewards: Recompensas del Autor. Cantidad de recompensas obtenidas por el autor de esta publicación.
+beneficiaries: Beneficiarios Adicionales. Un array de usuarios que también reciben una parte de las recompensas, además del autor. (Vacío si no hay).
+body: Cuerpo del Contenido. El texto principal de la publicación, generalmente en formato Markdown.
+body_length: Longitud del Cuerpo. Número de caracteres en el campo body.
+cashout_time: Tiempo de Cobro. Fecha y hora en que las recompensas de la publicación estarán disponibles para ser cobradas. Una fecha como 1969-12-31T23:59:59 a menudo indica que ya fue cobrada o no aplica.
+category: Categoría Principal. El primer tag o categoría asignada a la publicación.
+children: Número de Comentarios. Cantidad de respuestas directas que tiene la publicación.
+children_abs_rshares: R-Shares Absolutos de Hijos. Valor técnico relacionado con el poder de voto acumulado de los comentarios anidados.
+created: Fecha de Creación. Fecha y hora en que la publicación fue creada.
+curator_payout_value: Valor de Pago a Curadores. La parte de la recompensa total destinada a los votantes/curadores.
+depth: Profundidad del Contenido. Indica si es una publicación raíz (0) o un comentario anidado (mayor que 0).
+id: ID Interno del Contenido. Un identificador numérico interno de la base de datos de Hive para esta publicación.
+json_metadata: Metadatos JSON. Una cadena de texto que contiene información adicional en formato JSON (ej. tags, imágenes, descripción, aplicación usada para publicar). Necesita ser parseada para acceder a sus valores.
+last_payout: Último Pago. La fecha y hora del último pago realizado para esta publicación.
+last_update: Última Actualización. Fecha y hora de la última vez que se editó la publicación.
+max_accepted_payout: Pago Máximo Aceptado. El monto máximo de recompensas que la publicación puede acumular.
+max_cashout_time: Tiempo Máximo de Cobro. Similar a cashout_time, indica el límite para el cobro.
+net_rshares: R-Shares Netos. Un valor técnico que representa el poder de voto total después de contabilizar los votos negativos.
+net_votes: Votos Netos. El número de votos positivos menos los negativos.
+parent_author: Autor Padre. Si es un comentario, este es el autor del comentario o publicación al que responde. Vacío para publicaciones raíz.
+parent_permlink: Permlink Padre. Si es un comentario, este es el permlink del comentario o publicación al que responde. Para publicaciones raíz, es la categoría principal.
+pending_payout_value: Valor Pendiente de Pago. La cantidad actual de recompensas que la publicación aún no ha cobrado.
+percent_hbd: Porcentaje HBD. El porcentaje de las recompensas que se pagarán en Hive Backed Dollars (HBD). 0 indica 100% en Hive Power (HP).
+permlink: Permlink. La parte de la URL que identifica de forma única la publicación.
+reblogged_by: Reblogueado Por. Un array de nombres de usuario que han reblogueado esta publicación. (Vacío en este ejemplo).
+replies: Respuestas. Un array que contendría los datos de los comentarios directos (a menudo vacío si no se solicitan explícitamente los comentarios anidados).
+reward_weight: Peso de Recompensa. Un valor que influye en cómo se calculan las recompensas.
+root_author: Autor Raíz. El autor de la publicación original en una cadena de comentarios (para publicaciones raíz, es el mismo que author).
+root_permlink: Permlink Raíz. El permlink de la publicación original en una cadena de comentarios (para publicaciones raíz, es el mismo que permlink).
+root_title: Título Raíz. El título de la publicación original en una cadena de comentarios.
+title: Título. El título de la publicación.
+total_payout_value: Valor Total de Pago. El total de las recompensas que la publicación ha ganado y pagado.
+total_pending_payout_value: Valor Total Pendiente de Pago. Similar a pending_payout_value pero puede incluir otros factores.
+total_vote_weight: Peso Total de Votos. Suma del peso de todos los votos recibidos.
+url: URL Relativa. La parte de la URL que apunta a la publicación dentro de la plataforma Hive.
+vote_rshares: R-Shares de Voto Acumulados. Suma de los rshares de todos los votos en la publicación.
+
+___________________________________
+condenser_api.get_discussions_by_hot
+___________________________________
+
+Aquí tienes la lista de los campos del JSON anterior con una descripción corta y su significado.
+
+Campos del JSON (Resultado de get_discussions_by_hot)
+id: ID de la Solicitud RPC. Un identificador único de la solicitud.
+jsonrpc: Versión del Protocolo JSON-RPC. Siempre es "2.0".
+result: Resultado de la Consulta. Un array que contiene objetos de publicaciones.
+Campos dentro del Objeto de Publicación (dentro de result)
+active_votes: Votos Activos. Un array de objetos que describen cada voto.
+percent: Porcentaje de Voto. La fuerza del voto (ej., "10000" es 100 % ).
+reputation: Reputación del Votante. La reputación del usuario que votó.
+rshares: R-Shares del Voto. Recursos de recompensa generados por el voto.
+voter: Nombre del Votante. El usuario que emitió el voto.
+author: Autor. El nombre de usuario que creó la publicación.
+author_reputation: Reputación del Autor. La reputación del autor al momento de la consulta.
+beneficiaries: Beneficiarios Adicionales. Un array de cuentas que reciben parte de las recompensas.
+account: Cuenta del Beneficiario. El nombre de usuario de la cuenta beneficiaria.
+weight: Peso del Beneficiario. El porcentaje de las recompensas para este beneficiario (ej., 500 es 5 % ).
+body: Cuerpo del Contenido. El texto principal de la publicación.
+body_length: Longitud del Cuerpo. Número de caracteres en el body.
+cashout_time: Tiempo de Cobro. Fecha en que las recompensas están disponibles para cobro.
+category: Categoría Principal. El primer tag o categoría.
+children: Número de Comentarios. Cantidad de respuestas directas.
+created: Fecha de Creación. Fecha y hora de creación de la publicación.
+curator_payout_value: Valor de Pago a Curadores. Recompensas para los votantes, en HBD.
+depth: Profundidad del Contenido. 0 para una publicación raíz, mayor que 0 para un comentario anidado.
+json_metadata: Metadatos JSON. Información adicional en formato JSON (necesita ser parseada).
+last_payout: Último Pago. Fecha y hora del último pago (o 1969-12-31T23:59:59 si ya cobrado).
+last_update: Última Actualización. Fecha y hora de la última edición.
+max_accepted_payout: Pago Máximo Aceptado. El monto máximo de recompensas a acumular.
+net_rshares: R-Shares Netos. Poder de voto total después de votos negativos.
+parent_author: Autor Padre. Autor de la publicación/comentario al que se responde (vacío para publicaciones raíz).
+parent_permlink: Permlink Padre. Permlink de la publicación/comentario al que se responde (categoría para publicaciones raíz).
+pending_payout_value: Valor Pendiente de Pago. Recompensas aún no cobradas, en HBD.
+percent_hbd: Porcentaje HBD. Porcentaje de recompensas en HBD (10000 es 100% HBD, 0 es 100% Hive Power).
+permlink: Permlink. Parte de la URL que identifica la publicación.
+post_id: ID de la Publicación. Identificador numérico único de la publicación.
+replies: Respuestas. Array de comentarios directos (generalmente vacío si no se solicitan explícitamente).
+root_title: Título Raíz. Título de la publicación original en una cadena de comentarios.
+title: Título. El título de la publicación.
+total_payout_value: Valor Total de Pago. Recompensas totales ganadas y pagadas, en HBD.
+url: URL Relativa. La parte de la URL que apunta a la publicación.
+
+___________________________________
+condenser_api.get_discussions_by_trending
+___________________________________
+
+¡Claro! Aquí tienes la lista de campos de la publicación con una descripción corta de su significado:
+
+Campos de la Publicación y su Significado
+active_votes: Array que contiene detalles de cada voto recibido por la publicación (quién votó, porcentaje, etc.).
+author: El nombre de usuario del creador de la publicación.
+author_rewards: Recompensas totales en rshares (unidades internas de recompensa) que ha ganado el autor por esta publicación.
+author_sbd_dollars: Valor de las recompensas del autor en HBD (Hive Backed Dollars) al momento del pago final.
+author_sbd_payout: Cantidad de HBD pagados al autor.
+author_sbd_percent: Porcentaje de las recompensas que se pagan en HBD (normalmente 10000 para 50/50 HBD/HP, pero puede variar).
+beneficiaries: Lista de cuentas que reciben un porcentaje de las recompensas de la publicación, aparte del autor.
+body: El contenido principal de la publicación, escrito en formato Markdown.
+body_length: La longitud del contenido del body en caracteres.
+cashout_time: Fecha y hora en que las recompensas de la publicación estarán disponibles para ser reclamadas o se pagarán automáticamente.
+category: La categoría principal o comunidad a la que pertenece la publicación.
+children: El número de comentarios directos que tiene esta publicación.
+created: La fecha y hora en que la publicación fue creada.
+curator_payout_value: El valor de las recompensas recibidas por los curadores (quienes votaron la publicación) en HBD.
+depth: La profundidad del contenido en el hilo; 0 significa que es una publicación principal, no un comentario.
+last_payout: La última fecha y hora en que se realizó un pago de recompensas para esta publicación. Para publicaciones pendientes, suele ser una fecha de UNIX epoch.
+last_update: La última fecha y hora en que la publicación fue editada o actualizada.
+max_accepted_payout: La cantidad máxima de HBD que la publicación puede recibir como pago.
+max_cashout_time: La fecha y hora máxima en que las recompensas pueden ser reclamadas.
+net_rshares: Los "rshares" netos totales de la publicación, que determinan su valor de recompensa.
+parent_author: El autor del contenido al que esta publicación (o comentario) responde. Vacío si es una publicación principal.
+parent_permlink: El permlink del contenido al que esta publicación (o comentario) responde.
+pending_payout_value: El valor actual estimado de las recompensas pendientes que la publicación ganará, en HBD.
+percent_hbd: El porcentaje de las recompensas que se distribuirán como HBD (10000 significa 50% HBD, 50% HP).
+permlink: Un identificador único y legible por humanos para la publicación (parte de la URL).
+post_id: Un identificador numérico único para la publicación.
+promoted: Cantidad de HBD gastada para promocionar la publicación.
+replies: El número de comentarios directos que tiene esta publicación. (Similar a children).
+reward_weight: Un valor que influye en cómo se calculan las recompensas.
+root_author: El autor de la publicación original en un hilo de comentarios. Para publicaciones principales, es el mismo que author.
+root_permlink: El permlink de la publicación original en un hilo de comentarios. Para publicaciones principales, es el mismo que permlink.
+sc_hot: Un valor interno utilizado para clasificar publicaciones en la categoría "Hot".
+sc_trend: Un valor interno utilizado para clasificar publicaciones en la categoría "Trending".
+sbd_payout_value: (Campo obsoleto, generalmente 0.000 HBD).
+stats: Objeto que contiene estadísticas adicionales sobre la publicación.
+flag_weight: El peso total de los "flags" (reportes) recibidos.
+gray: Booleano, indica si la publicación ha sido "greyed out" (ocultada por la comunidad o flags).
+hide: Booleano, indica si la publicación está oculta.
+total_votes: El número total de votos únicos recibidos por la publicación.
+title: El título de la publicación.
+total_payout_value: El valor total de las recompensas que ha pagado esta publicación hasta ahora.
+total_pending_payout_value: El valor total de las recompensas que aún están pendientes de pagar (incluyendo curadores y beneficiarios).
+total_promo_payout_value: El valor total de las recompensas pagadas por la promoción de la publicación.
+url: La URL relativa de la publicación en Hive.
+vote_rshares: El valor total de los rshares generados por todos los votos de la publicación.
+votes: El número total de votos. (Similar a stats.total_votes).
+app: La aplicación o interfaz utilizada para crear la publicación (ej., "ecency/1.0.0").
+json_metadata: Una cadena JSON que contiene metadatos adicionales, como:
+tags: Array de etiquetas asociadas a la publicación.
+image: Array de URLs de las imágenes incluidas en la publicación.
+app: La aplicación utilizada para la publicación (redundante con el campo app de nivel superior, pero específico del metadata).
+format: El formato del contenido de la publicación (ej., "markdown").
+
+___________________________________
+condenser_api.get_discussions_by_created
+___________________________________
+
+¡Claro! Aquí tienes la lista de campos de la publicación con una descripción corta de su significado:
+
+Campos de la Publicación y su Significado
+id: Un número de identificación único para la respuesta de la API.
+jsonrpc: La versión del protocolo JSON-RPC utilizada, que es "2.0".
+result: Un array que contiene los datos solicitados. En este caso, contiene un solo objeto de publicación.
+Campos del Objeto de Publicación (dentro de result[0])
+active_votes: Array que lista los detalles de los votos activos (votos que aún influyen en las recompensas).
+author: El nombre de usuario que creó la publicación.
+author_reputation: El valor numérico de la reputación del autor.
+beneficiaries: Un array que especifica a otras cuentas que reciben un porcentaje de las recompensas de la publicación.
+body: El contenido principal de la publicación en formato Markdown.
+body_length: La cantidad de caracteres en el body de la publicación.
+cashout_time: La fecha y hora en que las recompensas de la publicación estarán disponibles para ser pagadas.
+category: La categoría o etiqueta principal de la publicación.
+children: El número de comentarios directos que tiene esta publicación.
+created: La fecha y hora en que la publicación fue creada.
+curator_payout_value: El valor de las recompensas pagadas a los curadores (quienes votaron la publicación) en HBD.
+depth: Indica si es una publicación principal (0) o un comentario (mayor que 0).
+json_metadata: Una cadena JSON que contiene metadatos adicionales, como etiquetas (tags), la aplicación (app) usada y el formato (format).
+last_payout: La última fecha en que se realizó un pago para esta publicación. (Para publicaciones no pagadas aún, suele ser una fecha de Unix epoch).
+last_update: La última fecha y hora en que la publicación fue editada.
+max_accepted_payout: El monto máximo de HBD que la publicación puede recibir como pago.
+net_rshares: La suma neta de "rshares" (unidades internas que determinan el valor de recompensa) de los votos.
+parent_author: El autor del contenido al que responde esta publicación/comentario (vacío si es una publicación raíz).
+parent_permlink: El permlink del contenido al que responde esta publicación/comentario.
+pending_payout_value: El valor estimado actual de las recompensas pendientes en HBD.
+percent_hbd: El porcentaje de las recompensas que se distribuirán como HBD.
+permlink: El identificador único y legible de la publicación en su URL.
+post_id: Un número de identificación único para la publicación.
+replies: Un array que contiene los comentarios directos a esta publicación (similar a children).
+root_title: El título de la publicación original en una cadena de comentarios (para publicaciones raíz, es igual al title).
+title: El título de la publicación.
+total_payout_value: El valor total de las recompensas que la publicación ya ha pagado.
+url: La ruta URL de la publicación en Hive.
+
+___________________________________
+condenser_api.get_state
+___________________________________
+
+
+condenser_api.get_followers
+condenser_api.get_following
+condenser_api.get_blog_authors
+

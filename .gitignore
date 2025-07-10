@@ -3,3 +3,4 @@ node_modules/
 dist/
 .astro/
 npm-debug.log
+GEMINI_WORK_LOG.md

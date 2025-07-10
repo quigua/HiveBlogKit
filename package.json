@@ -1,12 +1,20 @@
 {
   "name": "hiveblogkit",
   "version": "1.0.0",
+  "description": "A universal library for interacting with the Hive blockchain API.",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha \"test/**/*.js\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "dependencies": {
+    "axios": "^1.10.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "mocha": "^11.7.1"
+  }
 }
