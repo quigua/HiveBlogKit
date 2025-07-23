@@ -330,3 +330,47 @@ export async function condenser_api_get_content_replies(author, permlink) {
     }
     return rawApiCall('condenser_api.get_content_replies', [author, permlink]);
 }
+
+/**
+ * Calls condenser_api.get_discussions_by_comments and returns the complete (RAW) JSON response.
+ * Corresponds to `condenser_api.get_discussions_by_comments` in cURL.
+ * @param {object} query - An object containing query parameters (e.g., {start_author: "username", limit: 10}).
+ * @returns {Promise<object>} The complete JSON response from the Hive node.
+ */
+export async function condenser_api_get_discussions_by_comments(query) {
+    if (!query || typeof query !== 'object') {
+        return {
+            jsonrpc: "2.0",
+            error: {
+                code: -32602,
+                message: "Invalid params",
+                data: "Query object is required for condenser_api_get_discussions_by_comments"
+            },
+            id: null
+        };
+    }
+    return rawApiCall('condenser_api.get_discussions_by_comments', [query]);
+}
+
+/**
+ * Calls condenser_api.get_replies_by_last_update and returns the complete (RAW) JSON response.
+ * Corresponds to `condenser_api.get_replies_by_last_update` in cURL.
+ * @param {string} start_author - The author to start from.
+ * @param {string} start_permlink - The permlink to start from.
+ * @param {number} limit - The maximum number of replies to retrieve.
+ * @returns {Promise<object>} The complete JSON response from the Hive node.
+ */
+export async function condenser_api_get_replies_by_last_update(start_author, start_permlink, limit) {
+    if (!start_author) {
+        return {
+            jsonrpc: "2.0",
+            error: {
+                code: -32602,
+                message: "Invalid params",
+                data: "start_author is required for condenser_api_get_replies_by_last_update"
+            },
+            id: null
+        };
+    }
+    return rawApiCall('condenser_api.get_replies_by_last_update', [start_author, start_permlink, limit]);
+}

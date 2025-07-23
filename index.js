@@ -9,6 +9,7 @@ export { getUsersRebloggedPosts } from './src/methods/posts/getUsersRebloggedPos
 export { getCommunityDetails } from './src/methods/community/getCommunityDetails.js';
 export { getAllCommunities } from './src/methods/community/getAllCommunities.js';
 export { getRecentCommunityPosts } from './src/methods/community/getRecentCommunityPosts.js';
+export { getPost } from './src/methods/post/getPost.js';
 import getUserFollowers from './src/methods/user/getUserFollowers.js';
 import getAllUserFollowers from './src/methods/user/getAllUserFollowers.js';
 import getUserLastActivity from './src/methods/user/getUserLastActivity.js';
@@ -18,6 +19,8 @@ export { getUserLastActivity };
 export * from './src/methods/user/getUserProfile.js';
 import getPostComments from './src/methods/post/getPostComments.js';
 export { getPostComments };
+import getUserComments from './src/methods/user/getUserComments.js';
+export { getUserComments };
 
 // Export raw API call methods (from src/lib/hive-rpc/api.js)
 export {
