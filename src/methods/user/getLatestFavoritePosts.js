@@ -1,7 +1,5 @@
 import { condenser_api_get_blog } from '../../lib/hive-rpc/api.js';
 
-import { getUsersOriginalPosts } from '../posts/getUsersOriginalPosts.js';
-
 /**
  * Retrieves the latest posts from a specified number of recently followed users.
  *
@@ -28,28 +26,50 @@ export async function getLatestFavoritePosts(clientUsername, numberOfUsers = 4, 
         const followedUsers = allFavorites.slice(0, numberOfUsers); // Get the N most recent followed users
 
         for (const user of followedUsers) {
-            // Get the latest posts for each followed user
-            // Use condenser_api_get_blog to get a limited number of posts
-            const blogEntries = await condenser_api_get_blog(user.username, 0, postsPerUserLimit);
-            const posts = blogEntries.result.filter(entry => entry.comment && entry.comment.author === user.username && (entry.reblogged_on === '1970-01-01T00:00:00' || entry.reblogged_on === null)).map(entry => entry.comment);
-            
-            if (posts && posts.length > 0) {
-                // Iterate through the posts obtained for each user up to postsPerUserLimit
-                for (let i = 0; i < Math.min(posts.length, postsPerUserLimit); i++) {
-                    const post = posts[i];
-                    favoritePosts.push({
-                        author: post.author,
-                        authorAvatarUrl: `https://images.hive.blog/u/${post.author}/avatar`,
-                        title: post.title,
-                        votes: post.stats?.total_votes || 0, // Assuming stats.total_votes exists
-                        comments: post.children || 0,
-                        hbdPayout: `${parseFloat(post.pending_payout_value || post.total_payout_value || "0").toFixed(2)} HBD`,
-                        publishedDate: new Date(post.created).toLocaleDateString(),
-                        imageUrl: post.json_metadata && JSON.parse(post.json_metadata).image && JSON.parse(post.json_metadata).image.length > 0
-                            ? JSON.parse(post.json_metadata).image[0]
-                            : 'https://via.placeholder.com/600x400?text=No+Image',
-                    });
+            let foundPost = null;
+            let startIndex = 0;
+            const fetchLimit = 20; // Number of entries to fetch per API call
+            const maxEntriesToSearch = 100; // Maximum total entries to search for a post
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setHours(0, 0, 0, 0); // Set to the beginning of the day
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+            while (!foundPost && startIndex < maxEntriesToSearch) {
+                const blogEntries = await condenser_api_get_blog(user.username, startIndex, fetchLimit);
+
+                if (!blogEntries.result || blogEntries.result.length === 0) {
+                    break; // No more entries to fetch
                 }
+
+                for (const entry of blogEntries.result) {
+                    const isCommentPresent = !!entry.comment;
+                    const isAuthorMatch = entry.comment && entry.comment.author === user.username;
+                    const isOriginalPost = entry.reblogged_on === '1970-01-01T00:00:00' || entry.reblogged_on === null;
+                    const isTopLevelPost = entry.comment && entry.comment.depth === 0 && entry.comment.parent_author === '';
+                    const postDate = entry.comment ? new Date(entry.comment.created) : null;
+                    const isRecent = postDate && postDate >= sevenDaysAgo;
+
+                    if (isCommentPresent && isAuthorMatch && isOriginalPost && isTopLevelPost && isRecent) {
+                        foundPost = entry.comment;
+                        break; // Found a suitable post, stop searching for this user
+                    }
+                }
+                startIndex += fetchLimit;
+            }
+
+            if (foundPost) {
+                favoritePosts.push({
+                    author: foundPost.author,
+                    authorAvatarUrl: `https://images.hive.blog/u/${foundPost.author}/avatar`,
+                    title: foundPost.title,
+                    votes: foundPost.stats?.total_votes || 0, // Assuming stats.total_votes exists
+                    comments: foundPost.children || 0,
+                    hbdPayout: `${parseFloat(foundPost.pending_payout_value || foundPost.total_payout_value || "0").toFixed(2)} HBD`,
+                    publishedDate: new Date(foundPost.created).toLocaleDateString(),
+                    imageUrl: foundPost.json_metadata && JSON.parse(foundPost.json_metadata).image && JSON.parse(foundPost.json_metadata).image.length > 0
+                        ? JSON.parse(foundPost.json_metadata).image[0]
+                        : 'https://via.placeholder.com/600x400?text=No+Image'
+                });
             }
         }
     } catch (error) {
