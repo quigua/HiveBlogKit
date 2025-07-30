@@ -22,6 +22,7 @@ export { getPostComments };
 import getUserComments from './src/methods/user/getUserComments.js';
 export { getUserComments };
 export { getLatestFavoritePosts } from './src/methods/user/getLatestFavoritePosts.js';
+export { processPostHtml } from './src/utils/processPostHtml.js';
 
 // Export raw API call methods (from src/lib/hive-rpc/api.js)
 export {
