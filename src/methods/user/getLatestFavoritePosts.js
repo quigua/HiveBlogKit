@@ -9,22 +9,26 @@ import { condenser_api_get_blog } from '../../lib/hive-rpc/api.js';
  * @returns {Promise<Array<object>>} A list of the latest posts from followed users, formatted for HomePagePostCard.
  */
 export async function getLatestFavoritePosts(clientUsername, numberOfUsers = 4, postsPerUserLimit = 1) {
+    console.time('getLatestFavoritePosts execution');
     const DATA_REPO_BASE_URL = 'https://raw.githubusercontent.com/quigua/hived-static-content/main/data';
     const favoritesDataUrl = `${DATA_REPO_BASE_URL}/${clientUsername}/favorites.json`;
 
     let favoritePosts = [];
 
     try {
+        console.time('Fetch favorites.json');
         const response = await fetch(favoritesDataUrl);
         if (!response.ok) {
             throw new Error(`Failed to fetch favorites: ${response.statusText}`);
         }
         const data = await response.json();
+        console.timeEnd('Fetch favorites.json');
         // Ensure data.pages[0].favorites exists and is an array
         const allFavorites = Array.isArray(data.pages[0]?.favorites) ? data.pages[0].favorites : [];
         
         const followedUsers = allFavorites.slice(0, numberOfUsers); // Get the N most recent followed users
 
+        console.time('Fetch and process user posts concurrently');
         const fetchPromises = followedUsers.map(async (user) => {
             let foundPost = null;
             let startIndex = 0;
@@ -60,7 +64,9 @@ export async function getLatestFavoritePosts(clientUsername, numberOfUsers = 4, 
         });
 
         const results = await Promise.all(fetchPromises);
+        console.timeEnd('Fetch and process user posts concurrently');
 
+        console.time('Populate favoritePosts array');
         for (const foundPost of results) {
             if (foundPost) {
                 favoritePosts.push({
@@ -93,9 +99,11 @@ export async function getLatestFavoritePosts(clientUsername, numberOfUsers = 4, 
                 });
             }
         }
+        console.timeEnd('Populate favoritePosts array');
     } catch (error) {
         console.error("Error in getLatestFavoritePosts:", error);
     }
 
+    console.timeEnd('getLatestFavoritePosts execution');
     return favoritePosts;
 }
