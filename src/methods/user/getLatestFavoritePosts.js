@@ -25,7 +25,7 @@ export async function getLatestFavoritePosts(clientUsername, numberOfUsers = 4, 
         
         const followedUsers = allFavorites.slice(0, numberOfUsers); // Get the N most recent followed users
 
-        for (const user of followedUsers) {
+        const fetchPromises = followedUsers.map(async (user) => {
             let foundPost = null;
             let startIndex = 0;
             const fetchLimit = 20; // Number of entries to fetch per API call
@@ -56,7 +56,12 @@ export async function getLatestFavoritePosts(clientUsername, numberOfUsers = 4, 
                 }
                 startIndex += fetchLimit;
             }
+            return foundPost; // Return the found post or null
+        });
 
+        const results = await Promise.all(fetchPromises);
+
+        for (const foundPost of results) {
             if (foundPost) {
                 favoritePosts.push({
                     author: foundPost.author,
