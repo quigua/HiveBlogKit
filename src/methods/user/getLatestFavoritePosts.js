@@ -66,9 +66,24 @@ export async function getLatestFavoritePosts(clientUsername, numberOfUsers = 4, 
                     comments: foundPost.children || 0,
                     hbdPayout: `${parseFloat(foundPost.pending_payout_value || foundPost.total_payout_value || "0").toFixed(2)} HBD`,
                     publishedDate: new Date(foundPost.created).toLocaleDateString(),
-                    imageUrl: foundPost.json_metadata && JSON.parse(foundPost.json_metadata).image && JSON.parse(foundPost.json_metadata).image.length > 0
-                        ? JSON.parse(foundPost.json_metadata).image[0]
-                        : 'https://via.placeholder.com/600x400?text=No+Image'
+                    imageUrl: (() => {
+                        let imgUrl = 'https://via.placeholder.com/600x400?text=No+Image';
+                        try {
+                            const metadata = foundPost.json_metadata ? JSON.parse(foundPost.json_metadata) : null;
+                            if (metadata && metadata.image && metadata.image.length > 0) {
+                                imgUrl = metadata.image[0];
+                            } else if (foundPost.body) {
+                                const markdownImageRegex = /!\[.*?\]\((https?:\/\/[^\s)]+)\)/;
+                                const match = foundPost.body.match(markdownImageRegex);
+                                if (match && match[1]) {
+                                    imgUrl = match[1];
+                                }
+                            }
+                        } catch (e) {
+                            console.error("Error parsing json_metadata or extracting image from body:", e);
+                        }
+                        return imgUrl;
+                    })()
                 });
             }
         }
