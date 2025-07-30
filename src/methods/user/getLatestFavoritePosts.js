@@ -66,6 +66,7 @@ export async function getLatestFavoritePosts(clientUsername, numberOfUsers = 4, 
                     comments: foundPost.children || 0,
                     hbdPayout: `${parseFloat(foundPost.pending_payout_value || foundPost.total_payout_value || "0").toFixed(2)} HBD`,
                     publishedDate: new Date(foundPost.created).toLocaleDateString(),
+                    permlink: foundPost.permlink,
                     imageUrl: (() => {
                         let imgUrl = 'https://via.placeholder.com/600x400?text=No+Image';
                         try {
